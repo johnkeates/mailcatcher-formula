@@ -1,0 +1,32 @@
+{#
+ # I just guessed at the RedHat settings below.  If/when someone actually uses this
+ # with RedHat, please confirm/fix the settings and remove this comment.  Thanks!  :)
+ #}
+{% set mailcatcher = salt['grains.filter_by']({
+    'Debian': {
+        'ruby_package': 'ruby-dev',
+        'libsqlite3dev_package': 'libsqlite3-dev',
+        'catchmail_bin': '/usr/local/bin/catchmail',
+        'mailcatcher_bin': '/usr/local/bin/mailcatcher',
+        'php_conf_d': '/etc/php5/conf.d',
+        'apache_integration': False,
+        'nginx_integration': False,
+        'php_integration': False,
+        'apache_service': 'apache2',
+        'nginx_service': 'nginx',
+        'sendmail_service': 'exim4',
+    },
+    'RedHat': {
+        'ruby_package': 'ruby-dev',
+        'libsqlite3dev_package': 'libsqlite3-dev',
+        'catchmail_bin': '/usr/local/bin/catchmail',
+        'mailcatcher_bin': '/usr/local/bin/mailcatcher',
+        'php_conf_d': '/etc/php5/conf.d',
+        'apache_integration': False,
+        'nginx_integration': False,
+        'php_integration': False,
+        'apache_service': 'apache2',
+        'nginx_service': 'nginx',
+        'sendmail_service': 'exim4',
+    },
+}, merge=salt['pillar.get']('mailcatcher:lookup'), default='Debian') %}
