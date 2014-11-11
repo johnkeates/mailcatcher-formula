@@ -7,27 +7,26 @@ Configure server to send ALL mail to mailcatcher so nothing escapes.
 See the full [Salt Formulas installation and usage instructions](http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html)
 
 
-Available states
-================
+## Available states
 
 - [mailcatcher](#mailcatcher)
 - [mailcatcher.gem](#mailcatcher-gem)
 - [mailcatcher.php](#mailcatcher-php)
 - [mailcatcher.service](#mailcatcher-service)
 
-## mailcatcher
+### mailcatcher
 
 Install mailcatcher and start the service.
 
-## mailcatcher.gem
+### mailcatcher.gem
 
 Install mailcatcher and its dependencies.
 
-## mailcatcher.php
+### mailcatcher.php
 
 Configure PHP to use mailcatcher.
 
-## mailcatcher.service
+### mailcatcher.service
 
 Start the service (after stopping any other mail service).
 
@@ -48,6 +47,9 @@ mailcatcher:
     php_integration: True
 ```
 
+The above will update php.ini such that PHP uses mailcatcher to send mail, and it will
+restart Apache so the changes take effect.
+
 Nginx + PHP
 -----------
 
@@ -57,6 +59,10 @@ mailcatcher:
     nginx_integration: True
     php_integration: True
 ```
+
+The above will update php.ini such that PHP uses mailcatcher to send mail, and it will
+restart Nginx so the changes take effect.
+
 
 Note about Sendmail
 ===================
@@ -73,4 +79,4 @@ mailcatcher:
     sendmail_service: custom_service_name
 ```
 
-You can disable this functionality by setting `sendmail_service = False`
+You can disable this functionality by setting `sendmail_service: False`
