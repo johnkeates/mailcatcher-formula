@@ -3,6 +3,10 @@
 # Provides:          mailcatcher
 # Required-Start:    $local_fs $remote_fs $network $syslog $named
 # Required-Stop:     $local_fs $remote_fs $network $syslog $named
+# X-Start-Before:    {% if salt['pillar.get']('mailcatcher:apache_integration', False)
+                      %}{{ mailcatcher.apache_service }} {% endif %}
+                     {%- if salt['pillar.get']('mailcatcher:nginx_integration', False)
+                      %}{{ mailcatcher.nginx_service }} {% endif %}
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Start/stop mailcatcher smtp server
@@ -10,6 +14,7 @@
 
 NAME=mailcatcher
 DAEMON="{{ mailcatcher['mailcatcher_bin'] }}"
+DAEMON_ARGS="--http-ip 0.0.0.0 --smtp-port 25"
 PIDFILE=/var/run/mailcatcher.pid
 
 set -e
@@ -23,8 +28,15 @@ test -f $DAEMON || exit 0
 case $1 in
     start)
         log_daemon_msg "Starting smtp server" $NAME
-        start_daemon -p $PIDFILE --make-pidfile $DAEMON --http-ip 0.0.0.0 --smtp-port 25
-        log_end_msg $?
+        /sbin/start-stop-daemon --start --nicelevel 0 --quiet --oknodo \
+            --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
+        RETVAL=$?
+        if [ x$? = x0 ]; then
+            sleep 2  # give it a chance to fork
+            ps auxgw | grep $DAEMON | grep -v grep | head -n 1 | awk '{print $2}' > $PIDFILE
+        fi
+        log_end_msg $RETVAL
+        exit $RETVAL
     ;;
     stop)
         log_daemon_msg "Stopping smtp server" $NAME
