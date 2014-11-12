@@ -23,7 +23,7 @@ test -f $DAEMON || exit 0
 case $1 in
     start)
         log_daemon_msg "Starting smtp server" $NAME
-        start_daemon -p $PIDFILE $DAEMON --http-ip 0.0.0.0 --smtp-port 25
+        start_daemon -p $PIDFILE --make-pidfile $DAEMON --http-ip 0.0.0.0 --smtp-port 25
         log_end_msg $?
     ;;
     stop)
@@ -37,6 +37,7 @@ case $1 in
         log_daemon_msg "Restarting smtp server" $NAME
         $0 stop
         $0 start
+        exit $?
     ;;
 	status)
         status_of_proc -p $PIDFILE "$DAEMON" $NAME
