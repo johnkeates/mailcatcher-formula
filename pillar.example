@@ -1,0 +1,6 @@
+# See README for more info about these settings
+
+mailcatcher:
+  apache_integration: True
+  php_integration: True
+  nginx_integration: True

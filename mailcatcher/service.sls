@@ -1,7 +1,7 @@
 {% from "mailcatcher/map.jinja" import mailcatcher with context %}
 
 {% set sendmail_service = False %}
-{% if mailcatcher['sendmail_service'] and mailcatcher['sendmail_service']|upper != 'FALSE' %}
+{% if salt['pillar.get']('mailcatcher:sendmail_service', True) %}
   {%- set sendmail_service = mailcatcher['sendmail_service'] %}
 {% endif %}
 

@@ -37,17 +37,27 @@ Configuration
 All pillar values are optional, though you likely want to make sure we're catching mail from
 all the places you may be sending it.
 
+Standalone PHP
+--------------
+
+```yaml
+mailcatcher:
+  php_integration: True
+```
+
+The pillar setting above will update php.ini such that PHP uses mailcatcher to send mail.
+
+
 Apache + PHP
 ------------
 
 ```yaml
 mailcatcher:
-  lookup:
-    apache_integration: True
-    php_integration: True
+  apache_integration: True
+  php_integration: True
 ```
 
-The above will update php.ini such that PHP uses mailcatcher to send mail, and it will
+The pillar setting above will update php.ini such that PHP uses mailcatcher to send mail, and it will
 restart Apache so the changes take effect.
 
 Nginx + PHP
@@ -55,12 +65,11 @@ Nginx + PHP
 
 ```yaml
 mailcatcher:
-  lookup:
-    nginx_integration: True
-    php_integration: True
+  nginx_integration: True
+  php_integration: True
 ```
 
-The above will update php.ini such that PHP uses mailcatcher to send mail, and it will
+The pillar setting above will update php.ini such that PHP uses mailcatcher to send mail, and it will
 restart Nginx so the changes take effect.
 
 

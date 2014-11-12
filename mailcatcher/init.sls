@@ -2,7 +2,7 @@
 
 include:
   - mailcatcher.gem
-{% if mailcatcher['php_integration'] %}
+{%- if salt['pillar.get']('mailcatcher:php_integration', False) %}
   - mailcatcher.php
 {% endif %}
   - mailcatcher.service
