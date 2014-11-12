@@ -11,7 +11,7 @@
         'php_conf_d': '/etc/php5/conf.d',
         'apache_service': 'apache2',
         'nginx_service': 'nginx',
-        'sendmail_service': 'exim4',
+        'smtp_service': 'exim4',
     },
     'RedHat': {
         'ruby_package': 'ruby-dev',
@@ -21,6 +21,6 @@
         'php_conf_d': '/etc/php5/conf.d',
         'apache_service': 'httpd',
         'nginx_service': 'nginx',
-        'sendmail_service': 'exim4',
+        'smtp_service': 'exim4',
     },
 }, merge=salt['pillar.get']('mailcatcher:lookup'), default='Debian') %}

@@ -85,7 +85,13 @@ systems but who knows what yours is.
 ```yaml
 mailcatcher:
   lookup:
-    sendmail_service: custom_service_name
+    smtp_service: custom_service_name
 ```
 
-You can disable this functionality by setting `sendmail_service: False`
+If you don't have any existing SMTP service running on your machine and you don't want us to
+constantly check that said non-existing service is dead, you can set a pillar like
+
+```yaml
+mailcatcher:
+  smtp_service: False
+```
