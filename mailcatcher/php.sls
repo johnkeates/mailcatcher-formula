@@ -16,7 +16,7 @@ include:
 
 mailcatcher-php:
   file.managed:
-    - name: {{ mailcatcher['php_conf_d'] }}/mailcatcher.ini
+    - name: {{ mailcatcher['php_cli_conf_d'] }}/mailcatcher.ini
     - mode: 644
     - source: salt://mailcatcher/templates/php.ini
     - template: jinja
@@ -42,3 +42,22 @@ mailcatcher-php:
     {%- if nginx_integration %}
       - service: {{ mailcatcher.nginx_service }}
     {%- endif %}
+
+
+{% if apache_integration %}
+##Configure Apache Integration
+mailcatcher-php-apache:
+  file.copy:
+    - name: {{ mailcatcher['php_apache_conf_d'] }}/mailcatcher.ini
+    - mode: 644
+    - source: {{ mailcatcher['php_cli_conf_d'] }}/mailcatcher.ini
+{% endif %}
+
+{% if nginx_integration %}
+##Configure FPM integration as nginx is used with FPM
+mailcatcher-php-fpm-nginx:
+  file.copy:
+    - name: {{ mailcatcher['php_fpm_conf_d'] }}/mailcatcher.ini
+    - mode: 644
+    - source: {{ mailcatcher['php_cli_conf_d'] }}/mailcatcher.ini
+{% endif %}
